@@ -1,35 +1,98 @@
 <script lang="ts">
+	import { spring } from 'svelte/motion';
+
 	let count = 0;
 
-	const increment = (): void => {
-		count += 1;
-	};
+	const displayed_count = spring();
+	$: displayed_count.set(count);
+	$: offset = modulo($displayed_count, 1);
+
+	function modulo(n: number, m: number) {
+		// handle negative numbers
+		return ((n % m) + m) % m;
+	}
 </script>
 
-<button on:click={increment}>
-	Clicks: {count}
-</button>
+<div class="counter">
+	<button on:click={() => (count -= 1)} aria-label="Decrease the counter by one">
+		<svg aria-hidden="true" viewBox="0 0 1 1">
+			<path d="M0,0.5 L1,0.5" />
+		</svg>
+	</button>
+
+	<div class="counter-viewport">
+		<div class="counter-digits" style="transform: translate(0, {100 * offset}%)">
+			<strong style="top: -100%" aria-hidden="true">{Math.floor($displayed_count + 1)}</strong>
+			<strong>{Math.floor($displayed_count)}</strong>
+		</div>
+	</div>
+
+	<button on:click={() => (count += 1)} aria-label="Increase the counter by one">
+		<svg aria-hidden="true" viewBox="0 0 1 1">
+			<path d="M0,0.5 L1,0.5 M0.5,0 L0.5,1" />
+		</svg>
+	</button>
+</div>
 
 <style>
-	button {
-		font-family: inherit;
-		font-size: inherit;
-		padding: 1em 2em;
-		color: #ff3e00;
-		background-color: rgba(255, 62, 0, 0.1);
-		border-radius: 2em;
-		border: 2px solid #ff3e00;
-		outline: none;
-		width: 200px;
-		height: 60px;
-		font-variant-numeric: tabular-nums;
+	.counter {
+		display: flex;
+		border-top: 1px solid rgba(0, 0, 0, 0.1);
+		border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+		margin: 1rem 0;
 	}
 
-	button:hover {
-		border: 3px solid #ff3e00;
+	.counter button {
+		width: 2em;
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 0;
+		background-color: transparent;
+		color: var(--text-color);
+		font-size: 2rem;
 	}
 
-	button:active {
-		background-color: rgba(255, 62, 0, 0.2);
+	.counter button:hover {
+		background-color: var(--secondary-color);
+	}
+
+	svg {
+		width: 25%;
+		height: 25%;
+	}
+
+	path {
+		vector-effect: non-scaling-stroke;
+		stroke-width: 2px;
+		stroke: var(--text-color);
+	}
+
+	.counter-viewport {
+		width: 8em;
+		height: 4em;
+		overflow: hidden;
+		text-align: center;
+		position: relative;
+	}
+
+	.counter-viewport strong {
+		position: absolute;
+		display: block;
+		width: 100%;
+		height: 100%;
+		font-weight: 400;
+		color: var(--accent-color);
+		font-size: 4rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.counter-digits {
+		position: absolute;
+		width: 100%;
+		height: 100%;
 	}
 </style>
