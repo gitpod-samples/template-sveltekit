@@ -19,5 +19,5 @@ export const handle: Handle = async ({ request, resolve }) => {
 		response.headers['set-cookie'] = `userid=${request.locals.userid}; Path=/; HttpOnly`;
 	}
 
-	return response;
+	return response; 
 };

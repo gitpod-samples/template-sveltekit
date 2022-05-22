@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { spring } from 'svelte/motion';
 
+	export let size: "big" | "small";
+
+	const countFontSize = size === "big" ? "4rem" : "2rem";
 	let count = 0;
 
 	const displayed_count = spring();
@@ -22,8 +25,8 @@
 
 	<div class="counter-viewport">
 		<div class="counter-digits" style="transform: translate(0, {100 * offset}%)">
-			<strong style="top: -100%" aria-hidden="true">{Math.floor($displayed_count + 1)}</strong>
-			<strong>{Math.floor($displayed_count)}</strong>
+			<strong style="font-size: {countFontSize}; top: -100%" aria-hidden="true">{Math.floor($displayed_count + 1)}</strong>
+			<strong style="font-size: {countFontSize}">{Math.floor($displayed_count)}</strong>
 		</div>
 	</div>
 
