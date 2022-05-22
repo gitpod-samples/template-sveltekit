@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { spring } from 'svelte/motion';
 
-	export let size: "big" | "small";
+	export let size: "big" | "small" = undefined;
 
 	const countFontSize = size === "big" ? "4rem" : "2rem";
 	let count = 0;

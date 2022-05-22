@@ -12,7 +12,7 @@
 
 <section>
 	<h1>
-		Welcome to your James' SvelteKit app
+		Welcome to James' SvelteKit app
 	</h1>
 
 	<Counter />
