@@ -2,13 +2,14 @@
 # Learn more about this Gitpod configuration file in the documentation at https://www.gitpod.io/docs/configuration
 #
 ports:
-  - port: 3000
+  - name: Website preview
+    port: 3000
     onOpen: open-preview
 
 # List the start up tasks. You can start them in parallel in multiple terminals. See https://www.gitpod.io/docs/config-start-tasks
 tasks:
   - init: npm install
-    command: |
+  - command: |
       export HMR_HOST=`gp url 3000`
       npm run dev
 
